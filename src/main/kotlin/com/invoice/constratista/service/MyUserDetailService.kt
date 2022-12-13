@@ -29,14 +29,14 @@ class MyUserDetailService : UserDetailsService {
     }
 
     fun save(singRequest: SingRequest): UserEntity? {
-        return if (!userRepository.existsUserEntityByUsername(singRequest.user)) {
+        return if (!userRepository.existsUserEntityByUsername(singRequest.username)) {
             val date = Date()
             val calendar = Calendar.getInstance()
             calendar.time = date
             calendar.add(Calendar.HOUR, 1)
             val userEntity = UserEntity(
                 0,
-                singRequest.user,
+                singRequest.username,
                 passwordEncoder.encode(singRequest.password),
                 DateTimeOffset.valueOf(Timestamp(date.time), 1),
             )
