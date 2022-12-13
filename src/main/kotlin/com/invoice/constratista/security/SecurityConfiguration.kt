@@ -37,7 +37,7 @@ class SecurityConfiguration {
 
     @Bean
     fun webSecurityCustomizer(): WebSecurityCustomizer? {
-        return WebSecurityCustomizer { web: WebSecurity -> web.ignoring().requestMatchers("/singIn", "singUp") }
+        return WebSecurityCustomizer { web: WebSecurity -> web.ignoring().requestMatchers("/singIn", "/singUp") }
     }
 
 }
