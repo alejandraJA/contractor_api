@@ -20,6 +20,7 @@ class MyUserDetailService : UserDetailsService {
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
+
     override fun loadUserByUsername(username: String): UserDetails {
         val userEntity = userRepository.findUserEntityByUsername(username)
         return User(
@@ -31,14 +32,17 @@ class MyUserDetailService : UserDetailsService {
     fun save(singRequest: SingRequest): UserEntity? {
         return if (!userRepository.existsUserEntityByUsername(singRequest.username)) {
             val date = Date()
+            val userDetails = User(singRequest.username, singRequest.password, ArrayList())
             val calendar = Calendar.getInstance()
+            val userEntity: UserEntity
             calendar.time = date
             calendar.add(Calendar.HOUR, 1)
-            val userEntity = UserEntity(
+            userEntity = UserEntity(
                 0,
                 singRequest.username,
                 passwordEncoder.encode(singRequest.password),
                 DateTimeOffset.valueOf(Timestamp(date.time), 1),
+                ""
             )
             userRepository.save(userEntity)
         } else null

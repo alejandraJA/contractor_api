@@ -1,24 +1,21 @@
 package com.invoice.constratista.security
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import javax.sql.DataSource
 
 
 @Configuration
 class SecurityConfiguration {
-//    @Bean
-//    fun bearerTokenResolver(): BearerTokenResolver {
-//        val bearerTokenResolver = DefaultBearerTokenResolver()
-//        bearerTokenResolver.setBearerTokenHeaderName(HttpHeaders.PROXY_AUTHORIZATION)
-//        return bearerTokenResolver
-//    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder? {
@@ -26,18 +23,37 @@ class SecurityConfiguration {
     }
 
     @Bean
-    fun configure(http: HttpSecurity): SecurityFilterChain {
+    fun configure(
+        http: HttpSecurity,
+        jwtFilter: JwtFilter,
+    ): SecurityFilterChain {
         http
-            .authorizeHttpRequests { registry ->
-                registry.anyRequest().authenticated()
+            .csrf().disable()
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers("/singIn", "/singUp").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterAt(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
             }
-            .httpBasic(Customizer.withDefaults())
         return http.build()
+    }
+
+    @Autowired
+    private lateinit var dataSource: DataSource
+
+    @Autowired
+    fun configAuthentication(auth: AuthenticationManagerBuilder) {
+        auth.jdbcAuthentication().dataSource(dataSource)
+            .usersByUsernameQuery("SELECT username, password FROM [dbo].[user] WHERE username =?")
     }
 
     @Bean
     fun webSecurityCustomizer(): WebSecurityCustomizer? {
-        return WebSecurityCustomizer { web: WebSecurity -> web.ignoring().requestMatchers("/singIn", "/singUp") }
+        return WebSecurityCustomizer { web: WebSecurity ->
+            web.ignoring()
+                .requestMatchers("/singIn", "/singUp").anyRequest()
+        }
     }
 
 }

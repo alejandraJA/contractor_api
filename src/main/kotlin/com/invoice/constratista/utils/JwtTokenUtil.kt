@@ -1,9 +1,11 @@
 package com.invoice.constratista.utils
 
+import com.invoice.constratista.datasource.database.repository.UserRepository
 import com.invoice.constratista.utils.Constants.JWT_TOKEN_VALIDITY
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
@@ -17,6 +19,9 @@ class JwtTokenUtil : Serializable {
 
     @Value("\${jwt.secret}")
     private lateinit var secret: String
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
 
     //retrieve username from jwt token
     fun getUsernameFromToken(token: String): String {
@@ -46,7 +51,7 @@ class JwtTokenUtil : Serializable {
     }
 
     //for retrieveing any information from token we will need the secret key
-    private fun getAllClaimsFromToken(token: String): Claims {
+    fun getAllClaimsFromToken(token: String): Claims {
         println(
             " claims string inside getAllClaimsFromToken is " + Jwts.parser().setSigningKey(secret)
                 .parseClaimsJws(token).body
@@ -72,9 +77,13 @@ class JwtTokenUtil : Serializable {
     //3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
     //   compaction of the JWT to a URL-safe string
     private fun doGenerateToken(claims: Map<String, Any>, subject: String): String {
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(Date(System.currentTimeMillis()))
+        val token = Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(Date(System.currentTimeMillis()))
             .setExpiration(Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
             .signWith(SignatureAlgorithm.HS512, secret).compact()
+        val userEntity = userRepository.findUserEntityByUsername(subject)
+        userEntity.token = token
+        userRepository.save(userEntity)
+        return token
     }
 
     //validate token
