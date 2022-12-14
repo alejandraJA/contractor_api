@@ -29,20 +29,24 @@ class AuthenticationController {
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
+
     @RequestMapping(value = ["singIn"], method = [RequestMethod.POST])
     fun singIn(@RequestBody singRequest: SingRequest): ResponseEntity<Any> {
-        val user = userRepository.findUserEntityByUsername(singRequest.username)
-        val userStatus = passwordEncoder.matches(singRequest.password, user.password)
-        return if (userStatus) {
-            val userDetail = userDetailsService.loadUserByUsername(singRequest.username)
-            ResponseEntity.ok(
-                Response(
-                    status = true,
-                    message = "Authentication ok",
-                    data = jwtTokenUtil.generateToken(userDetail)
+        return if (userRepository.existsUserEntityByUsername(singRequest.username)) {
+            val user = userRepository.findUserEntityByUsername(singRequest.username)
+            val userStatus = passwordEncoder.matches(singRequest.password, user.password)
+            if (userStatus) {
+                val userDetail = userDetailsService.loadUserByUsername(singRequest.username)
+                val token = jwtTokenUtil.generateToken(userDetail)
+                ResponseEntity.ok(
+                    Response(
+                        status = true,
+                        message = "Authentication ok",
+                        data = token
+                    )
                 )
-            )
-        } else ResponseEntity.ok(Response(status = false, message = "Incorrect Password or Email.", data = ""))
+            } else ResponseEntity.ok(Response(status = false, message = "User or password incorrect.", data = ""))
+        } else ResponseEntity.ok(Response(status = false, message = "${singRequest.username} does not exist.", data = ""))
     }
 
     @RequestMapping(value = ["singUp"], method = [RequestMethod.POST])
@@ -56,15 +60,10 @@ class AuthenticationController {
             )
         )
     }
+
     @RequestMapping(value = ["validateToken"], method = [RequestMethod.GET])
     fun validateToken(): ResponseEntity<Any> {
-        val validateToken = jwtTokenUtil.validateToken(
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGVqYW5kcmFKaW1lbmV6QXZhbG9zQCIsI" +
-                    "mV4cCI6MTY3MDk5MTIyMSwiaWF0IjoxNjcwOTczMjIxfQ.UBi-XYpjVU5ZtjSggupgeKz" +
-                    "V2ps1jsgW2ylFahrBQwCWnoTbgKYMu1gzgSyeqTMITIz6iiSfk-mIBLvX6Pl3GQ",
-            userDetailsService.loadUserByUsername("AlejandraJimenezAvalos@")
-        )
-        return ResponseEntity.ok(validateToken)
+        return ResponseEntity.ok("validateToken")
     }
 
 }

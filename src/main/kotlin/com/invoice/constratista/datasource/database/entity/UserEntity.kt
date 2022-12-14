@@ -18,5 +18,7 @@ data class UserEntity(
     val username: String,
     @JsonIgnore
     var password: String,
-    val registration: DateTimeOffset
+    val registration: DateTimeOffset,
+    @JsonIgnore
+    var token: String
 )

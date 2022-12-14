@@ -28,12 +28,22 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation ("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation ("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
+    // Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-web")
+    implementation("org.springframework.security:spring-security-config")
+    implementation("org.springframework:spring-jdbc")
+    implementation("eu.bitwalker:UserAgentUtils:1.21")
+
+    // Para solicitar el Bearer TOKEN
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    // Para que la encriptación del token funcione
     implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
     implementation("com.sun.xml.bind:jaxb-impl:4.0.1")
 
