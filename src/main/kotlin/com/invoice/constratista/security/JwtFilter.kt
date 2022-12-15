@@ -18,22 +18,24 @@ class JwtFilter : GenericFilterBean() {
     private lateinit var jwtUtil: JwtUtil
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        (request as HttpServletRequest).getHeader("Authorization")
+        val token: String? = (request as HttpServletRequest).getHeader("Authorization")
         val path = request.requestURI
-        val token: String? = request.getHeader("Authorization")
         if (token != null) {
             val authentication = jwtUtil.getAuthentication(request)
             SecurityContextHolder.getContext().authentication = authentication
             chain.doFilter(request, response)
+            return
         } else {
-            if ((path == "/singIn") || (path == "/singUp")) {
+            if ((path == "/singUp") || (path == "/singIn")) {
                 SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(
                     "admin",
                     null,
                     AuthorityUtils.NO_AUTHORITIES
                 )
                 chain.doFilter(request, response)
+                return
             }
         }
     }
+
 }

@@ -25,11 +25,9 @@ class JwtTokenUtil : Serializable {
 
     //retrieve username from jwt token
     fun getUsernameFromToken(token: String): String {
-        println(" token string is $token")
         val getUsernameFromTokenString = getClaimFromToken(
             token
         ) { obj: Claims -> obj.subject }
-        println(" getUsernameFromTokenString based on getSubject is $getUsernameFromTokenString")
         return getClaimFromToken(token) { obj: Claims -> obj.subject }
     }
 
@@ -38,7 +36,6 @@ class JwtTokenUtil : Serializable {
         val getExpirationDateFromTokenDate = getClaimFromToken(
             token
         ) { obj: Claims -> obj.expiration }
-        println(" getExpirationDateFromTokenDate based on getExpiration is $getExpirationDateFromTokenDate")
         return getClaimFromToken(
             token
         ) { obj: Claims -> obj.expiration }
@@ -46,16 +43,11 @@ class JwtTokenUtil : Serializable {
 
     fun <T> getClaimFromToken(token: String, claimsResolver: Function<Claims, T>): T {
         val claims = getAllClaimsFromToken(token)
-        println(" claims string inside getClaimFromToken is $claims")
         return claimsResolver.apply(claims)
     }
 
     //for retrieveing any information from token we will need the secret key
     fun getAllClaimsFromToken(token: String): Claims {
-        println(
-            " claims string inside getAllClaimsFromToken is " + Jwts.parser().setSigningKey(secret)
-                .parseClaimsJws(token).body
-        )
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).body
     }
 
