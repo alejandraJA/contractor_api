@@ -1,6 +1,6 @@
 package com.invoice.constratista.service
 
-import com.invoice.constratista.controller.request.SingRequest
+import com.invoice.constratista.controller.authentication.request.SingRequest
 import com.invoice.constratista.datasource.database.entity.UserEntity
 import com.invoice.constratista.datasource.database.repository.UserRepository
 import microsoft.sql.DateTimeOffset
@@ -22,7 +22,7 @@ class MyUserDetailService : UserDetailsService {
     private lateinit var passwordEncoder: PasswordEncoder
 
     override fun loadUserByUsername(username: String): UserDetails {
-        val userEntity = userRepository.findUserEntityByUsername(username)
+        val userEntity = userRepository.findUserEntityByUsername(username)!!
         return User(
             userEntity.username, userEntity.password,
             ArrayList()
@@ -32,7 +32,6 @@ class MyUserDetailService : UserDetailsService {
     fun save(singRequest: SingRequest): UserEntity? {
         return if (!userRepository.existsUserEntityByUsername(singRequest.username)) {
             val date = Date()
-            val userDetails = User(singRequest.username, singRequest.password, ArrayList())
             val calendar = Calendar.getInstance()
             val userEntity: UserEntity
             calendar.time = date

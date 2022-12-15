@@ -26,7 +26,7 @@ class JwtFilter : GenericFilterBean() {
             chain.doFilter(request, response)
             return
         } else {
-            if ((path == "/singUp") || (path == "/singIn")) {
+            if (path.contains("/sing")) {
                 SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(
                     "admin",
                     null,
