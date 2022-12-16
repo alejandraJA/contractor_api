@@ -24,13 +24,14 @@ class MyUserDetailService : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
         val userEntity = userRepository.findUserEntityByUsername(username)!!
         return User(
-            userEntity.username, userEntity.password,
+            userEntity.username,
+            userEntity.password,
             ArrayList()
         )
     }
 
     fun save(singRequest: SingRequest): UserEntity? {
-        return if (!userRepository.existsUserEntityByUsername(singRequest.username)) {
+        return if (!userRepository.existsUserEntityByUsername(singRequest.username ?: "")) {
             val date = Date()
             val calendar = Calendar.getInstance()
             val userEntity: UserEntity
@@ -38,7 +39,7 @@ class MyUserDetailService : UserDetailsService {
             calendar.add(Calendar.HOUR, 1)
             userEntity = UserEntity(
                 0,
-                singRequest.username,
+                singRequest.username ?: "",
                 passwordEncoder.encode(singRequest.password),
                 DateTimeOffset.valueOf(Timestamp(date.time), 1),
                 ""

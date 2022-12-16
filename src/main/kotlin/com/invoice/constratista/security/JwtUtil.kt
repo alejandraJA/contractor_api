@@ -1,7 +1,7 @@
 package com.invoice.constratista.security
 
 import com.invoice.constratista.service.MyUserDetailService
-import com.invoice.constratista.utils.JwtTokenUtil
+import com.invoice.constratista.utils.TokenUtils
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -15,17 +15,13 @@ class JwtUtil {
     private lateinit var userDetailService: MyUserDetailService
 
     @Autowired
-    private lateinit var tokenUtil: JwtTokenUtil
-//    fun addAuthentication(response: HttpServletResponse, username: String) {
-//        val token = tokenUtil.generateToken(userDetailService.loadUserByUsername(username))
-//        response.addHeader("Authorization", token)
-//    }
+    private lateinit var tokenUtil: TokenUtils
 
     fun getAuthentication(request: HttpServletRequest): UsernamePasswordAuthenticationToken? {
         val token = request.getHeader("Authorization")
 
         return if (token.isNotEmpty()) {
-            val username = tokenUtil.getAllClaimsFromToken(token).subject
+            val username = tokenUtil.getUsername(token)!!
             val user = userDetailService.loadUserByUsername(username)
             if (username.isNotEmpty()) UsernamePasswordAuthenticationToken(
                 username,

@@ -2,15 +2,16 @@ package com.invoice.constratista.controller.authentication
 
 import com.invoice.constratista.controller.authentication.request.SingRequest
 import com.invoice.constratista.controller.authentication.request.UpdateTokenRequest
-import com.invoice.constratista.controller.authentication.response.TokenResponse
 import com.invoice.constratista.datasource.database.entity.UserEntity
 import com.invoice.constratista.datasource.database.repository.UserRepository
 import com.invoice.constratista.service.MyUserDetailService
-import com.invoice.constratista.utils.JwtTokenUtil
 import com.invoice.constratista.utils.Response
+import com.invoice.constratista.utils.TokenUtils
 import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.SignatureException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AuthenticationController {
     @Autowired
-    private lateinit var userRepository: UserRepository
+    private lateinit var repository: UserRepository
 
     @Autowired
-    private lateinit var jwtTokenUtil: JwtTokenUtil
+    private lateinit var tokenUtil: TokenUtils
 
     @Autowired
     private lateinit var userDetailsService: MyUserDetailService
@@ -35,27 +36,19 @@ class AuthenticationController {
 
     @RequestMapping(value = ["/in"], method = [RequestMethod.POST])
     fun singIn(@RequestBody request: SingRequest): ResponseEntity<Any> {
-        return if (userRepository.existsUserEntityByUsername(request.username)) {
-            val user = userRepository.findUserEntityByUsername(request.username)
-            val userStatus = passwordEncoder.matches(request.password, user!!.password)
-            if (userStatus) {
-                val userDetail = userDetailsService.loadUserByUsername(request.username)
-                val token = jwtTokenUtil.generateToken(userDetail)
-                ResponseEntity.ok(
-                    Response(
-                        status = true,
-                        message = "Authenticated.",
-                        data = TokenResponse(token, jwtTokenUtil.getExpirationDateFromToken(token))
-                    )
-                )
-            } else ResponseEntity.ok(Response(status = false, message = "User or password incorrect.", data = ""))
-        } else ResponseEntity.ok(
-            Response(
-                status = false,
-                message = "${request.username} does not exist in database.",
-                data = ""
-            )
-        )
+        var status = false
+        var message = "${request.username} does not exist."
+        var data: Any? = null
+        val userEntity: UserEntity? = repository.findUserEntityByUsername(request.username?:"")
+        if (userEntity != null) {
+            if (passwordEncoder.matches(request.password, userEntity.password)) {
+                val user = User(userEntity.username, userEntity.password, ArrayList())
+                status = true
+                message = "Authenticated."
+                data = tokenUtil.getExpiration(tokenUtil.generateToken(user))
+            } else message = "Password incorrect. Please check this."
+        }
+        return ResponseEntity.ok(Response(status, message, data))
     }
 
     @RequestMapping(value = ["/up"], method = [RequestMethod.POST])
@@ -72,55 +65,30 @@ class AuthenticationController {
 
     @RequestMapping(value = ["/updateToken"], method = [RequestMethod.PUT])
     fun validateToken(@RequestBody request: UpdateTokenRequest): ResponseEntity<Any> {
-        return try {
-            val tokenStatus = jwtTokenUtil.validateToken(
-                request.token,
-                userDetailsService.loadUserByUsername(request.username)
-            )
-            if (tokenStatus) ResponseEntity.ok(
-                Response(
-                    status = true,
-                    message = "Token available.",
-                    data = TokenResponse(
-                        request.token,
-                        jwtTokenUtil.getExpirationDateFromToken(request.token)
-                    )
-                )
-            )
-            else ResponseEntity.ok(
-                Response(
-                    status = false,
-                    message = "The token does not correspond to the user.",
-                    data = null
-                )
-            )
+        var status = false
+        var message: String
+        var data: Any? = null
+        try {
+            if (tokenUtil.isValid(request.token, userDetailsService.loadUserByUsername(request.username))) {
+                status = true
+                message = "Token available"
+                data = tokenUtil.getExpiration(request.token)
+            } else message = "The token does not correspond to the user."
         } catch (_: ExpiredJwtException) {
-            val userEntity: UserEntity? = userRepository.findUserEntityByUsername(request.username)
-            if ((userEntity != null) && (userEntity.token == request.token)) {
-                val token = jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(userEntity.username))
-                ResponseEntity.ok(
-                    Response(
-                        status = true,
-                        message = "Token refresh.",
-                        data = TokenResponse(token, jwtTokenUtil.getExpirationDateFromToken(token))
-                    )
-                )
-            } else ResponseEntity.ok(
-                Response(
-                    status = false,
-                    message = "The token does not correspond to the user.",
-                    data = null
-                )
-            )
+            val user = repository.findUserEntityByUsername(request.username)!!
+            if (user.token == request.token) {
+                status = true
+                message = "Token refresh."
+                data = tokenUtil.getExpiration(tokenUtil.generateToken(User(user.username, user.password, ArrayList())))
+            } else message = "The token does not correspond to the user."
         } catch (_: NullPointerException) {
-            ResponseEntity.ok(
-                Response(
-                    status = false,
-                    message = "${request.username} does not exist in database.",
-                    data = null
-                )
-            )
+            message = "${request.username} does not exist in database."
         }
+        catch (_: SignatureException) {
+            message = "Token invalid"
+        }
+
+        return ResponseEntity.ok(Response(status, message, data))
     }
 
 }
