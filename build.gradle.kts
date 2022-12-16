@@ -38,6 +38,10 @@ dependencies {
     implementation("org.springframework.security:spring-security-web")
     implementation("org.springframework.security:spring-security-config")
     implementation("org.springframework:spring-jdbc")
+
+    // implementation("javax.servlet:javax.servlet-api:4.0.1")
+
+
     implementation("eu.bitwalker:UserAgentUtils:1.21")
 
     // Para solicitar el Bearer TOKEN
