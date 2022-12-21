@@ -1,10 +1,9 @@
 package com.invoice.constratista.datasource.database.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import com.invoice.constratista.datasource.database.entity.event.EventEntity
+import com.invoice.constratista.datasource.database.entity.inventory.ProductInventoryEntity
+import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
 
@@ -21,4 +20,12 @@ data class UserEntity(
     val registration: DateTimeOffset,
     @JsonIgnore
     var token: String
-)
+) {
+    @OrderBy("date")
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var eventEntities: MutableList<EventEntity> = mutableListOf()
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var productInventoryEntities: MutableList<ProductInventoryEntity> = mutableListOf()
+
+}

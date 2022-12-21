@@ -1,7 +1,7 @@
-package com.invoice.constratista.controller.authentication
+package com.invoice.constratista.controller.auth
 
-import com.invoice.constratista.controller.authentication.request.SingRequest
-import com.invoice.constratista.controller.authentication.request.UpdateTokenRequest
+import com.invoice.constratista.controller.auth.request.SingRequest
+import com.invoice.constratista.controller.auth.request.UpdateTokenRequest
 import com.invoice.constratista.datasource.database.entity.UserEntity
 import com.invoice.constratista.datasource.database.repository.UserRepository
 import com.invoice.constratista.service.MyUserDetailService

@@ -1,4 +1,4 @@
-package com.invoice.constratista.controller.authentication.response
+package com.invoice.constratista.controller.auth.response
 
 import java.util.*
 

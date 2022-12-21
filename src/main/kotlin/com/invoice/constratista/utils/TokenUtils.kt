@@ -1,6 +1,6 @@
 package com.invoice.constratista.utils
 
-import com.invoice.constratista.controller.authentication.response.TokenResponse
+import com.invoice.constratista.controller.auth.response.TokenResponse
 import com.invoice.constratista.datasource.database.repository.UserRepository
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
@@ -30,7 +30,7 @@ class TokenUtils : Serializable {
     private fun <T> String.getClaim(claims: Function<Claims, T>): T = claims.apply(this.getAllClaims()!!)
     private fun String.getAllClaims(): Claims? = Jwts.parser().setSigningKey(secret).parseClaimsJws(this).body
     private fun String.doGenerateToken(claims: Map<String, Any>): String {
-        val token = Jwts.builder().setClaims(claims).setIssuedAt(Date(System.currentTimeMillis()))
+        val token = Jwts.builder().setClaims(claims).setSubject(this).setIssuedAt(Date(System.currentTimeMillis()))
             .setExpiration(Date(System.currentTimeMillis() + Constants.JWT_TOKEN_VALIDITY * 100))
             .signWith(SignatureAlgorithm.HS512, secret).compact()
         val user = repository.findUserEntityByUsername(username = this)!!

@@ -1,4 +1,4 @@
-package com.invoice.constratista.controller.authentication.request
+package com.invoice.constratista.controller.auth.request
 
 data class SingRequest(
     val username: String?,

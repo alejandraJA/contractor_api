@@ -1,6 +1,6 @@
 package com.invoice.constratista.service
 
-import com.invoice.constratista.controller.authentication.request.SingRequest
+import com.invoice.constratista.controller.auth.request.SingRequest
 import com.invoice.constratista.datasource.database.entity.UserEntity
 import com.invoice.constratista.datasource.database.repository.UserRepository
 import microsoft.sql.DateTimeOffset
