@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "3.0.0"
+    id("com.microsoft.azure.azurewebapp") version "1.2.0"
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.7.21"
     kotlin("plugin.spring") version "1.7.21"
@@ -23,15 +24,15 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation ("org.springframework.boot:spring-boot-starter-oauth2-client")
-    implementation ("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     // Security
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -45,18 +46,21 @@ dependencies {
     implementation("eu.bitwalker:UserAgentUtils:1.21")
 
     // Para solicitar el Bearer TOKEN
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    //implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // Para que la encriptación del token funcione
     implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
-    implementation("com.sun.xml.bind:jaxb-impl:4.0.1")
+//    implementation("com.sun.xml.bind:jaxb-impl:4.0.1")
 
     implementation("io.jsonwebtoken:jjwt:0.9.1")
 
-    implementation("com.microsoft.sqlserver:mssql-jdbc:11.2.1.jre17")
+    implementation("com.microsoft.sqlserver:mssql-jdbc:11.2.2.jre17")
+    implementation("com.microsoft.azure:azure-webapp-maven-plugin:2.8.0")
+    implementation("com.azure:azure-ai-anomalydetector:3.0.0-beta.5")
 
-    annotationProcessor("org.projectlombok:lombok")
+    //annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.projectlombok:lombok")
+
 }
 
 tasks.withType<KotlinCompile> {

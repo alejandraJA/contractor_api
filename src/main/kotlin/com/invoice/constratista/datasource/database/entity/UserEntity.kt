@@ -6,6 +6,7 @@ import com.invoice.constratista.datasource.database.entity.inventory.ProductInve
 import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
+import org.hibernate.Hibernate
 
 @Entity(name = "[user]")
 @Table
@@ -22,10 +23,24 @@ data class UserEntity(
     var token: String
 ) {
     @OrderBy("date")
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
     var eventEntities: MutableList<EventEntity> = mutableListOf()
 
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
     var productInventoryEntities: MutableList<ProductInventoryEntity> = mutableListOf()
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
+        other as UserEntity
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int = javaClass.hashCode()
+
+    @Override
+    override fun toString(): String {
+        return this::class.simpleName + "(id = $id , username = $username , password = $password , registration = $registration , token = $token )"
+    }
 
 }
