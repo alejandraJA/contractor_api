@@ -33,7 +33,7 @@ class JwtFilter : GenericFilterBean() {
                 chain.doFilter(request, response)
                 return
             } else {
-                if (path.contains("/sing")) {
+                if (path.contains("/sing") || path == "/") {
                     auth.authentication = UsernamePasswordAuthenticationToken(
                         "admin",
                         null,
