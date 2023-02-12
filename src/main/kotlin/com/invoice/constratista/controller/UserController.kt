@@ -1,6 +1,6 @@
 package com.invoice.constratista.controller
 
-import com.invoice.constratista.datasource.database.repository.UserRepository
+import com.invoice.constratista.datasource.repository.sql.UserRepository
 import com.invoice.constratista.utils.Response
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity

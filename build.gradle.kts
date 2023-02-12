@@ -24,9 +24,7 @@ repositories {
 }
 
 dependencies {
-//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -40,26 +38,31 @@ dependencies {
     implementation("org.springframework.security:spring-security-config")
     implementation("org.springframework:spring-jdbc")
 
-    // implementation("javax.servlet:javax.servlet-api:4.0.1")
-
-
     implementation("eu.bitwalker:UserAgentUtils:1.21")
-
-    // Para solicitar el Bearer TOKEN
-    //implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // Para que la encriptación del token funcione
     implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
-//    implementation("com.sun.xml.bind:jaxb-impl:4.0.1")
-
     implementation("io.jsonwebtoken:jjwt:0.9.1")
 
     implementation("com.microsoft.sqlserver:mssql-jdbc:11.2.2.jre17")
     implementation("com.microsoft.azure:azure-webapp-maven-plugin:2.8.0")
     implementation("com.azure:azure-ai-anomalydetector:3.0.0-beta.5")
 
-    //annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.projectlombok:lombok")
+
+    // Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4")
+    implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.4")
+    implementation ("org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2")
+
+    // Corrutinas
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.6.4")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4")
 
 }
 

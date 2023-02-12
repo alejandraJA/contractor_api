@@ -1,7 +1,7 @@
 package com.invoice.constratista.utils
 
 import com.invoice.constratista.controller.auth.response.TokenResponse
-import com.invoice.constratista.datasource.database.repository.UserRepository
+import com.invoice.constratista.datasource.repository.sql.UserRepository
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm

@@ -1,9 +1,9 @@
 package com.invoice.constratista.controller
 
-import com.invoice.constratista.datasource.database.entity.inventory.ProductInventoryEntity
-import com.invoice.constratista.datasource.database.entity.inventory.ProductInventoryRepository
-import com.invoice.constratista.datasource.database.repository.ProductRepository
-import com.invoice.constratista.datasource.database.repository.UserRepository
+import com.invoice.constratista.datasource.database.inventory.ProductInventoryEntity
+import com.invoice.constratista.datasource.database.inventory.ProductInventoryRepository
+import com.invoice.constratista.datasource.repository.sql.ProductRepository
+import com.invoice.constratista.datasource.repository.sql.UserRepository
 import com.invoice.constratista.utils.Response
 import microsoft.sql.DateTimeOffset
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +28,9 @@ class ProductController {
 
     @Autowired
     private lateinit var productRepository: ProductRepository
+
+    @Autowired
+    lateinit var userRepository: UserRepository
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun save(@RequestBody request: ProductInventoryEntity): ResponseEntity<Response<Any>> {
@@ -60,6 +63,14 @@ class ProductController {
     }
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
-    fun getAll() = ResponseEntity.ok(Response(status = true, message = "ok", data = inventoryRepository.findAll()))
+    fun getAll() = ResponseEntity.ok(
+        Response(
+            status = true,
+            message = "ok",
+            data = inventoryRepository.findAllByUserId(
+                userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().authentication.name)!!.id
+            )
+        )
+    )
 
 }

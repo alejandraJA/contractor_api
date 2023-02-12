@@ -2,9 +2,9 @@ package com.invoice.constratista.controller.auth
 
 import com.invoice.constratista.controller.auth.request.SingRequest
 import com.invoice.constratista.controller.auth.request.UpdateTokenRequest
-import com.invoice.constratista.datasource.database.entity.UserEntity
-import com.invoice.constratista.datasource.database.repository.UserRepository
-import com.invoice.constratista.service.MyUserDetailService
+import com.invoice.constratista.datasource.database.UserEntity
+import com.invoice.constratista.datasource.repository.sql.UserRepository
+import com.invoice.constratista.sys.service.MyUserDetailService
 import com.invoice.constratista.utils.Response
 import com.invoice.constratista.utils.TokenUtils
 import io.jsonwebtoken.ExpiredJwtException
