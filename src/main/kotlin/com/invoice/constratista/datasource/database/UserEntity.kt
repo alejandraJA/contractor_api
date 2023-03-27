@@ -8,7 +8,7 @@ import lombok.Data
 import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
 
-@Entity(name = "[user]")
+@Entity(name = "user")
 @Table
 @Data
 data class UserEntity(

@@ -5,7 +5,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import lombok.Data
 
-@Entity(name = "[address]")
+@Entity(name = "address")
 @Table
 @Data
 data class AddressEntity(

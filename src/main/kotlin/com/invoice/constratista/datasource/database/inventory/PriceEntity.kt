@@ -6,7 +6,7 @@ import lombok.Data
 import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
 
-@Entity(name = "[price]")
+@Entity(name = "price")
 @Table
 @Data
 data class PriceEntity(

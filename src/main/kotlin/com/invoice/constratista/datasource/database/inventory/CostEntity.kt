@@ -7,7 +7,7 @@ import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
 
 @Suppress("SENSELESS_COMPARISON")
-@Entity(name = "[cost]")
+@Entity(name = "cost")
 @Table
 @Data
 data class CostEntity(

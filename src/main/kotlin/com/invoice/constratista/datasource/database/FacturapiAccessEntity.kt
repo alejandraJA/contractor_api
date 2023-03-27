@@ -3,7 +3,7 @@ package com.invoice.constratista.datasource.database
 import jakarta.persistence.*
 import lombok.Data
 
-@Entity(name = "[facturapi_access]")
+@Entity(name = "facturapi_access")
 @Table
 @Data
 data class FacturapiAccessEntity(

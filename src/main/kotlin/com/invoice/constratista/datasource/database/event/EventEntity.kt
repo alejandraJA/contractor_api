@@ -6,7 +6,7 @@ import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
 
-@Entity(name = "[event]")
+@Entity(name = "event")
 @Table
 @Data
 data class EventEntity(

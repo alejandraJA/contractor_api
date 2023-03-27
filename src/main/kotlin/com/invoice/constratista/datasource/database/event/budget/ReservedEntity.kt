@@ -6,7 +6,7 @@ import jakarta.persistence.*
 import lombok.Data
 import java.sql.Date
 
-@Entity(name = "[reserved]")
+@Entity(name = "reserved")
 @Table
 @Data
 data class ReservedEntity(

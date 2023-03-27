@@ -4,7 +4,7 @@ import com.invoice.constratista.datasource.database.AddressEntity
 import jakarta.persistence.*
 import lombok.Data
 
-@Entity(name = "[vendor]")
+@Entity(name = "vendor")
 @Table
 @Data
 data class VendorEntity(

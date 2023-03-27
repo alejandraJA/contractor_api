@@ -7,7 +7,7 @@ import lombok.Data
 import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
 
-@Entity(name = "[product_inventory]")
+@Entity(name = "product_inventory")
 @Table
 @Data
 data class ProductInventoryEntity(

@@ -3,7 +3,7 @@ package com.invoice.constratista.datasource.database.event.budget
 import jakarta.persistence.*
 import lombok.Data
 
-@Entity(name = "[part]")
+@Entity(name = "part")
 @Table
 @Data
 data class PartEntity(

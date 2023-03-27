@@ -7,7 +7,7 @@ import jakarta.persistence.Table
 import lombok.Data
 import org.hibernate.Hibernate
 
-@Entity(name = "[product_base]")
+@Entity(name = "product_base")
 @Table
 @Data
 data class ProductBaseEntity(

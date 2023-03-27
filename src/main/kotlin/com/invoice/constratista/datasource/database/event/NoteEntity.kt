@@ -1,10 +1,9 @@
 package com.invoice.constratista.datasource.database.event
 
-import com.invoice.constratista.datasource.database.event.EventEntity
 import jakarta.persistence.*
 import lombok.Data
 
-@Entity(name = "[note]")
+@Entity(name = "note")
 @Table
 @Data
 data class NoteEntity(

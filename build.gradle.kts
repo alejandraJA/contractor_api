@@ -32,6 +32,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
+    // MySQL
+    runtimeOnly("com.mysql:mysql-connector-j")
+
     // Security
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.security:spring-security-web")

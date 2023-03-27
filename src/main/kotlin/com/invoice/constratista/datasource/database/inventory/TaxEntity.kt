@@ -6,7 +6,7 @@ import lombok.Data
 import org.hibernate.Hibernate
 
 @Suppress("SENSELESS_COMPARISON")
-@Entity(name = "[tax]")
+@Entity(name = "tax")
 @Table
 @Data
 data class TaxEntity(

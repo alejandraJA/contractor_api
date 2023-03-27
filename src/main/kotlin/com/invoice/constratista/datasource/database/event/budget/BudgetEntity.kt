@@ -4,7 +4,7 @@ import com.invoice.constratista.datasource.database.event.EventEntity
 import jakarta.persistence.*
 import lombok.Data
 
-@Entity(name = "[budget]")
+@Entity(name = "budget")
 @Table
 @Data
 data class BudgetEntity(
