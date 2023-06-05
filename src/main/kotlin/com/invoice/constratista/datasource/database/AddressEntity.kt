@@ -1,5 +1,6 @@
 package com.invoice.constratista.datasource.database
 
+
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table

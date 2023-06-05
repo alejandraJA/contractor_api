@@ -29,8 +29,6 @@ class ProductController {
     @Autowired
     private lateinit var productRepository: ProductRepository
 
-    @Autowired
-    lateinit var userRepository: UserRepository
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun save(@RequestBody request: ProductInventoryEntity): ResponseEntity<Response<Any>> {
@@ -68,7 +66,10 @@ class ProductController {
             status = true,
             message = "ok",
             data = inventoryRepository.findAllByUserId(
-                userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().authentication.name)!!.id
+                repository.findUserEntityByUsername(
+                    SecurityContextHolder
+                        .getContext().authentication.name
+                )!!.id
             )
         )
     )

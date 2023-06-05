@@ -1,5 +1,7 @@
 package com.invoice.constratista.datasource.database.event
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.invoice.constratista.datasource.database.DateEntity
 import com.invoice.constratista.datasource.database.UserEntity
 import com.invoice.constratista.datasource.database.event.budget.BudgetEntity
 import jakarta.persistence.*
@@ -27,7 +29,12 @@ data class EventEntity(
     @OneToMany(mappedBy = "event", cascade = [CascadeType.ALL], orphanRemoval = true)
     var scheduleEntities: MutableList<ScheduleEntity> = mutableListOf()
 
+    @OrderBy("date ASC")
+    @OneToMany(mappedBy = "eventEntity", orphanRemoval = true)
+    open var dateEntities: MutableList<DateEntity> = mutableListOf()
+
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     var user: UserEntity? = null
 }
