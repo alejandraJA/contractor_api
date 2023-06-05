@@ -1,5 +1,6 @@
 package com.invoice.constratista.datasource.database.event.budget
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.invoice.constratista.datasource.database.event.EventEntity
 import jakarta.persistence.*
 import lombok.Data
@@ -20,5 +21,6 @@ data class BudgetEntity(
 
     @ManyToOne
     @JoinColumn(name = "event_id")
+    @JsonIgnore
     var event: EventEntity? = null
 }

@@ -1,6 +1,7 @@
 package com.invoice.constratista.datasource.database.event
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.invoice.constratista.datasource.database.CustomerEntity
 import com.invoice.constratista.datasource.database.DateEntity
 import com.invoice.constratista.datasource.database.UserEntity
 import com.invoice.constratista.datasource.database.event.budget.BudgetEntity
@@ -31,10 +32,14 @@ data class EventEntity(
 
     @OrderBy("date ASC")
     @OneToMany(mappedBy = "eventEntity", orphanRemoval = true)
-    open var dateEntities: MutableList<DateEntity> = mutableListOf()
+    var dateEntities: MutableList<DateEntity> = mutableListOf()
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "user_id")
     var user: UserEntity? = null
+
+    @ManyToOne
+    @JoinColumn(name = "customer_entity_id")
+    var customerEntity: CustomerEntity? = null
 }

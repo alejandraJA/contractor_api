@@ -1,0 +1,26 @@
+###
+POST http://localhost:9191/sing/up
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "Ale@email.com",
+  "password": "ale.-112233"
+}
+
+<> 2023-04-27T122157.200.json
+<> 2023-04-26T102455.200.json
+
+###
+POST http://localhost:9191/sing/in
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "Ale@email.com",
+  "password": "ale.-112233"
+}
+
+<> 2023-04-27T122203.200.json
+<> 2023-04-26T102617.200.json
+
