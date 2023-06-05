@@ -34,10 +34,9 @@ class MyUserDetailService : UserDetailsService {
         return if (!userRepository.existsUserEntityByUsername(singRequest.username ?: "")) {
             val date = Date()
             val calendar = Calendar.getInstance()
-            val userEntity: UserEntity
             calendar.time = date
             calendar.add(Calendar.HOUR, 1)
-            userEntity = UserEntity(
+            val userEntity: UserEntity = UserEntity(
                 0,
                 singRequest.username ?: "",
                 passwordEncoder.encode(singRequest.password),

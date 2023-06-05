@@ -43,4 +43,6 @@ data class UserEntity(
         return this::class.simpleName + "(id = $id , username = $username , password = $password , registration = $registration , token = $token )"
     }
 
+    @OneToMany(mappedBy = "userEntity", orphanRemoval = true)
+    var customerEntities: MutableList<CustomerEntity> = mutableListOf()
 }

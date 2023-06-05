@@ -2,7 +2,6 @@ package com.invoice.constratista.datasource.web.model
 
 
 import com.google.gson.annotations.SerializedName
-import com.invoice.constratista.datasource.web.model.Address
 
 data class CustomerResponse(
     @SerializedName("address")

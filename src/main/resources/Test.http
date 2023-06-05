@@ -1,0 +1,38 @@
+###
+GET http://localhost:9191/
+
+###
+POST http://localhost:9191/sing/up
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "Ale@email.com",
+  "password": "ale.-112233"
+}
+
+###
+POST http://localhost:9191/sing/in
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "Ale@email.com",
+  "password": "ale.-112233"
+}
+
+###
+GET http://localhost:9191/event
+Authorization: {{token}}
+
+###
+GET http://localhost:9191/mobile/event
+Authorization: {{token}}
+
+###
+POST http://localhost:9191/event
+Authorization: {{token}}
+Content-Type: application/json
+
+###
+

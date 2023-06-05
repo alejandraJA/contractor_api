@@ -1,5 +1,6 @@
 package com.invoice.constratista.datasource.database
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.invoice.constratista.datasource.database.event.EventEntity
 import jakarta.persistence.*
 import lombok.Data
@@ -17,7 +18,8 @@ data class DateEntity(
 ) {
     @ManyToOne
     @JoinColumn(name = "event_entity_id")
-    open var eventEntity: EventEntity? = null
+    @JsonIgnore
+    var eventEntity: EventEntity? = null
 
     // Constructor vacío necesario para JPA
     constructor() : this(0, "", "", "")

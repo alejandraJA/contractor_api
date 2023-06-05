@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "3.0.0"
-    id("com.microsoft.azure.azurewebapp") version "1.2.0"
+    // id("com.microsoft.azure.azurewebapp") version "1.2.0"
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.7.21"
     kotlin("plugin.spring") version "1.7.21"
@@ -27,6 +27,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+//    implementation ("org.springdoc:springdoc-openapi-ui")
+//    implementation ("jakarta.validation:jakarta.validation-api")
+//    implementation ("org.hibernate.validator:hibernate-validator")
+
+
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")

@@ -1,5 +1,6 @@
 package com.invoice.constratista.datasource.database.event
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.Data
 
@@ -12,5 +13,6 @@ data class NoteEntity(
 ) {
     @ManyToOne
     @JoinColumn(name = "event_id")
+    @JsonIgnore
     var event: EventEntity? = null
 }

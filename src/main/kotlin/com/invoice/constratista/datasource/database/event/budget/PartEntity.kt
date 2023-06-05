@@ -1,5 +1,6 @@
 package com.invoice.constratista.datasource.database.event.budget
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.Data
 
@@ -18,5 +19,6 @@ data class PartEntity(
 
     @ManyToOne
     @JoinColumn(name = "budget_id")
+    @JsonIgnore
     var budget: BudgetEntity? = null
 }
