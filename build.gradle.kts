@@ -72,6 +72,7 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.6.4")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4")
+    implementation(kotlin("stdlib"))
 
 }
 

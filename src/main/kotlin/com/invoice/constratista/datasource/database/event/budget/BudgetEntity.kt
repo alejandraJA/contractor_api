@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.invoice.constratista.datasource.database.event.EventEntity
 import jakarta.persistence.*
 import lombok.Data
+import java.sql.Date
 
 @Entity(name = "budget")
 @Table
@@ -11,7 +12,7 @@ import lombok.Data
 data class BudgetEntity(
     @Id val id: String,
     val number: Int,
-    val date: String,
+    val date: Date,
     val conditions: String,
     val status: String,
 ) {

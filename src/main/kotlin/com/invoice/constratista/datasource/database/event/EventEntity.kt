@@ -8,6 +8,7 @@ import com.invoice.constratista.datasource.database.event.budget.BudgetEntity
 import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
+import java.sql.Date
 
 @Entity(name = "event")
 @Table
@@ -17,7 +18,7 @@ data class EventEntity(
     val state: String,
     val note: String,
     @Column(name = "event_name") val eventName: String,
-    val date: DateTimeOffset,
+    val date: Date,
 ) {
     @OrderBy("number")
     @OneToMany(mappedBy = "event", cascade = [CascadeType.ALL], orphanRemoval = true)

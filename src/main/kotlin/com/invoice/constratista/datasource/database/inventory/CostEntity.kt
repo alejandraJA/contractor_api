@@ -5,6 +5,7 @@ import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
+import java.sql.Date
 
 @Suppress("SENSELESS_COMPARISON")
 @Entity(name = "cost")
@@ -14,7 +15,7 @@ data class CostEntity(
     @Id val id: String,
     @Column(name = "unit_cost") val unitCost: Double,
     val quantity: Int,
-    var date: DateTimeOffset?,
+    var date: Date?,
 ) {
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "vendor_id")

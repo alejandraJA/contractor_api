@@ -1,4 +1,4 @@
-package com.invoice.constratista.controller.event
+package com.invoice.constratista.controller.event.request
 
 import com.invoice.constratista.datasource.database.AddressEntity
 

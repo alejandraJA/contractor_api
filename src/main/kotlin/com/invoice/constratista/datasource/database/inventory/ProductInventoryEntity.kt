@@ -6,6 +6,8 @@ import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
+import java.sql.Date
+
 
 @Entity(name = "product_inventory")
 @Table
@@ -13,7 +15,7 @@ import org.hibernate.Hibernate
 data class ProductInventoryEntity(
     @Id val id: String,
     val quantity: Int,
-    var modified: DateTimeOffset?,
+    var modified: Date?,
 ) {
     @OneToOne()
     @JoinColumn(name = "product_id")
@@ -42,4 +44,13 @@ data class ProductInventoryEntity(
     override fun toString(): String {
         return this::class.simpleName + "(id = $id , quantity = $quantity , modified = $modified , product = $product , user = $user )"
     }
+
 }
+
+data class Availability(
+    val idInventory: String,
+    val idProduct: String,
+    val quantity: Int,
+    val reserved: Int,
+    val available: Int
+)

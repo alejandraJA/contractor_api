@@ -1,7 +1,7 @@
 package com.invoice.constratista.controller
 
 import com.invoice.constratista.datasource.database.event.EventEntity
-import com.invoice.constratista.sys.domain.usecase.EventControllerI
+import com.invoice.constratista.sys.domain.usecase.EventController
 import com.invoice.constratista.utils.Response
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(value = ["event"])
-class EventController {
+class EventDesktopController {
     @Autowired
-    private lateinit var eventControllerI: EventControllerI
+    private lateinit var eventController: EventController
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun save(@RequestBody request: EventEntity): ResponseEntity<Response<EventEntity>> {
-        val data = eventControllerI.save(request)
+        val data = eventController.save(request)
         return ResponseEntity.ok(
             Response(
                 status = data != null,
@@ -30,7 +30,7 @@ class EventController {
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
     fun getEvents(): ResponseEntity<Response<List<EventEntity>>> {
-        val data = eventControllerI.get()
+        val data = eventController.get()
         return ResponseEntity.ok(
             Response(
                 status = data.isNotEmpty(),

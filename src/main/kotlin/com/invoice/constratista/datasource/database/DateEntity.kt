@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.invoice.constratista.datasource.database.event.EventEntity
 import jakarta.persistence.*
 import lombok.Data
+import java.sql.Date
 
 @Entity
 @Table(name = "date")
@@ -13,7 +14,7 @@ data class DateEntity(
     var id: Long = 0,
     @Column(name = "id_reference")
     var idReference: String,
-    var date: String,
+    var date: Date,
     var name: String
 ) {
     @ManyToOne
@@ -22,6 +23,6 @@ data class DateEntity(
     var eventEntity: EventEntity? = null
 
     // Constructor vacío necesario para JPA
-    constructor() : this(0, "", "", "")
+    constructor() : this(0, "", Date(java.util.Date().time), "")
 
 }

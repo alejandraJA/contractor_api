@@ -2,6 +2,7 @@ package com.invoice.constratista.datasource.database.event.budget
 
 import com.invoice.constratista.datasource.database.inventory.PriceEntity
 import com.invoice.constratista.datasource.database.inventory.ProductEntity
+import com.invoice.constratista.datasource.database.inventory.ProductInventoryEntity
 import jakarta.persistence.*
 import lombok.Data
 import java.sql.Date
@@ -20,4 +21,8 @@ data class ReservedEntity(
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "price_id")
     var price: PriceEntity? = null
+
+    @ManyToOne
+    @JoinColumn(name = "product_inventory_id")
+    var inventory: ProductInventoryEntity? = null
 }

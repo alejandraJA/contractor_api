@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
+import java.sql.Date
 
 @Entity(name = "product")
 @Table
@@ -11,7 +12,7 @@ import org.hibernate.Hibernate
 data class ProductEntity(
     @Id val id: String,
     val name: String,
-    var modified: DateTimeOffset?
+    var modified: Date?
 ) {
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_base_id")

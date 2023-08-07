@@ -1,9 +1,9 @@
 package com.invoice.constratista.controller
 
-import com.invoice.constratista.controller.event.EventWithBudgets
+import com.invoice.constratista.controller.event.request.EventWithBudgets
 import com.invoice.constratista.datasource.mapper.Mapper.toEvent
 import com.invoice.constratista.datasource.mapper.Mapper.toEventWithBudgets
-import com.invoice.constratista.sys.domain.usecase.EventControllerI
+import com.invoice.constratista.sys.domain.usecase.EventController
 import com.invoice.constratista.utils.Response
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController
 class EventMobileController {
 
     @Autowired
-    private lateinit var eventControllerI: EventControllerI
+    private lateinit var eventController: EventController
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun save(@RequestBody request: EventWithBudgets): ResponseEntity<Response<EventWithBudgets>> {
-        val data = eventControllerI.save(request).toEvent()
+        val data = eventController.save(request).toEvent()
         return ResponseEntity.ok(
             Response(
                 status = data != null,
@@ -33,7 +33,7 @@ class EventMobileController {
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
     fun getEvents(): ResponseEntity<Response<List<EventWithBudgets>>> {
-        val data = eventControllerI.get().toEventWithBudgets()
+        val data = eventController.get().toEventWithBudgets()
         return ResponseEntity.ok(
             Response(
                 status = data.isNotEmpty(),

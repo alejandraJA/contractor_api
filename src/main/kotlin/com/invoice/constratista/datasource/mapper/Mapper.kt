@@ -1,19 +1,13 @@
 package com.invoice.constratista.datasource.mapper
 
-import com.invoice.constratista.controller.event.Budget
-import com.invoice.constratista.controller.event.BudgetWithParts
-import com.invoice.constratista.controller.event.EventWithBudgets
+import com.invoice.constratista.controller.event.request.*
+import com.invoice.constratista.datasource.database.AddressEntity
 import com.invoice.constratista.datasource.database.DateEntity
-import com.invoice.constratista.datasource.database.event.EventEntity
-import com.invoice.constratista.datasource.database.event.NoteEntity
-import com.invoice.constratista.datasource.database.event.ScheduleEntity
-import com.invoice.constratista.datasource.database.event.budget.BudgetEntity
-import com.invoice.constratista.datasource.database.event.budget.PartEntity
-import com.invoice.constratista.datasource.database.event.budget.ReservedEntity
-import com.invoice.constratista.utils.getDateTimeOffet
+import com.invoice.constratista.datasource.database.event.*
+import com.invoice.constratista.datasource.database.event.budget.*
 import com.invoice.constratista.utils.toDate
 import java.util.Date
-import com.invoice.constratista.controller.event.Date as DateModel
+import com.invoice.constratista.controller.event.request.Date as DateModel
 import java.sql.Date as SqlDate
 
 object Mapper {
@@ -23,7 +17,7 @@ object Mapper {
             event.state,
             event.note,
             event.eventName,
-            getDateTimeOffet()!!
+            java.sql.Date(Date().time)
         )
         val budgetEntities = mutableListOf<BudgetEntity>()
         val noteEntities: MutableList<NoteEntity> = mutableListOf()
@@ -44,7 +38,13 @@ object Mapper {
         }
         schedules.forEach {
             val scheduleEntity =
-                ScheduleEntity(it.schedule.id, it.schedule.date, it.schedule.state, it.schedule.note, it.schedule.name)
+                ScheduleEntity(
+                    it.schedule.id,
+                    java.sql.Date(it.schedule.date.toDate()!!.time),
+                    it.schedule.state,
+                    it.schedule.note,
+                    it.schedule.name
+                )
             scheduleEntity.event = eventEntity
             scheduleEntity.address = AddressEntity(
                 it.address.id,
@@ -61,7 +61,7 @@ object Mapper {
             scheduleEntities.add(scheduleEntity)
         }
         dates.forEach {
-            dateEntities.add(DateEntity(it.id, it.idReference, it.date, it.name))
+            dateEntities.add(DateEntity(it.id, it.idReference, java.sql.Date(it.date.toDate()!!.time), it.name))
         }
         eventEntity.budgetEntities.addAll(budgetEntities)
         eventEntity.noteEntities.addAll(noteEntities)
@@ -92,7 +92,7 @@ object Mapper {
     }
 
     private fun Budget.toBudgetEntity() =
-        BudgetEntity(id, number, date, conditions, status)
+        BudgetEntity(id, number, java.sql.Date(date.toDate()!!.time), conditions, status)
 
     fun List<EventEntity>.toEventWithBudgets(): List<EventWithBudgets> {
         val events = mutableListOf<EventWithBudgets>()
@@ -121,10 +121,12 @@ object Mapper {
     private fun getSchedules(scheduleEntities: MutableList<ScheduleEntity>): List<ScheduleWithAddress> {
         val schedules = mutableListOf<ScheduleWithAddress>()
         scheduleEntities.forEach {
-            schedules.add(ScheduleWithAddress(
-                schedule = Schedule(it.id, it.event!!.id, it.date, it.state, it.note, it.address!!.id, it.name),
-                address = it.address!!
-            ))
+            schedules.add(
+                ScheduleWithAddress(
+                    schedule = Schedule(it.id, it.event!!.id, it.date.toString(), it.state, it.note, it.address!!.id, it.name),
+                    address = it.address!!
+                )
+            )
         }
         return schedules
     }
@@ -132,7 +134,7 @@ object Mapper {
     private fun getDates(dateEntities: MutableList<DateEntity>): List<DateModel> {
         val dates = mutableListOf<DateModel>()
         dateEntities.forEach {
-            dates.add(DateModel(it.id, it.eventEntity!!.id, it.date, it.name))
+            dates.add(DateModel(it.id, it.eventEntity!!.id, it.date.toString(), it.name))
         }
         return dates
     }
@@ -171,7 +173,7 @@ object Mapper {
                         budget.number,
                         idCustomer,
                         budget.event!!.id,
-                        budget.date,
+                        budget.date.toString(),
                         budget.conditions,
                         budget.status
                     ),

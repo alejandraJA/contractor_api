@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.invoice.constratista.datasource.database.AddressEntity
 import jakarta.persistence.*
 import lombok.Data
+import java.sql.Date
 
 @Entity(name = "schedule")
 @Table
 @Data
 data class ScheduleEntity(
     @Id val id: String,
-    val date: String,
+    val date: Date,
     val state: String,
     val note: String,
     val name: String,

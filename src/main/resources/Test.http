@@ -1,7 +1,7 @@
 ###
 GET http://localhost:9191/
 
-###
+### Register User
 POST http://localhost:9191/sing/up
 Accept: application/json
 Content-Type: application/json
@@ -11,7 +11,7 @@ Content-Type: application/json
   "password": "ale.-112233"
 }
 
-###
+### Login
 POST http://localhost:9191/sing/in
 Accept: application/json
 Content-Type: application/json
@@ -21,18 +21,29 @@ Content-Type: application/json
   "password": "ale.-112233"
 }
 
-###
+### Get All Event for Desktop
 GET http://localhost:9191/event
 Authorization: {{token}}
 
-###
+### Get All Avent for mobile
 GET http://localhost:9191/mobile/event
 Authorization: {{token}}
 
-###
+### Save Event
 POST http://localhost:9191/event
 Authorization: {{token}}
 Content-Type: application/json
 
-###
+### Get product
+GET http://localhost:9191/product/1
+Authorization: {{token}}
 
+### Get availavility of product in inventoty
+GET http://localhost:9191/product/1/availability
+Authorization: {{token}}
+Content-Type: application/json
+
+### Get Availavility of inventory
+GET http://localhost:9191/product/available
+Authorization: {{token}}
+Content-Type: application/json

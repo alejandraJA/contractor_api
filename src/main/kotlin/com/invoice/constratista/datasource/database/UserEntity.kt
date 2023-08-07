@@ -7,6 +7,8 @@ import jakarta.persistence.*
 import lombok.Data
 import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
+import org.springframework.data.jpa.repository.query.Procedure
+import java.sql.Date
 
 @Entity(name = "user")
 @Table
@@ -18,7 +20,7 @@ data class UserEntity(
     val username: String,
     @JsonIgnore
     var password: String,
-    val registration: DateTimeOffset,
+    val registration: Date,
     @JsonIgnore
     var token: String
 ) {
@@ -45,4 +47,5 @@ data class UserEntity(
 
     @OneToMany(mappedBy = "userEntity", orphanRemoval = true)
     var customerEntities: MutableList<CustomerEntity> = mutableListOf()
+
 }

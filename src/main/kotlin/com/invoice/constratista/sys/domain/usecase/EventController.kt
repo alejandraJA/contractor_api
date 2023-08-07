@@ -1,8 +1,8 @@
 package com.invoice.constratista.sys.domain.usecase
 
-import com.invoice.constratista.controller.event.EventWithBudgets
+import com.invoice.constratista.controller.event.request.EventWithBudgets
 import com.invoice.constratista.datasource.database.event.EventEntity
-import com.invoice.constratista.datasource.database.inventory.PriceRepository
+import com.invoice.constratista.datasource.repository.sql.PriceRepository
 import com.invoice.constratista.datasource.mapper.Mapper.toEventEntity
 import com.invoice.constratista.datasource.repository.sql.CustomerRepository
 import com.invoice.constratista.datasource.repository.sql.EventRepository
@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 
 @Controller
-class EventControllerI {
+class EventController {
 
     @Autowired
     private lateinit var eventRespository: EventRepository

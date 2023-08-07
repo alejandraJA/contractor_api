@@ -3,8 +3,8 @@ package com.invoice.constratista.datasource.database.inventory
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.Data
-import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
+import java.sql.Date
 
 @Entity(name = "price")
 @Table
@@ -12,7 +12,7 @@ import org.hibernate.Hibernate
 data class PriceEntity(
     @Id val id: String,
     @Column(name = "unit_price") val unitPrice: Double,
-    var date: DateTimeOffset?,
+    var date: Date?,
 ) {
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_id")

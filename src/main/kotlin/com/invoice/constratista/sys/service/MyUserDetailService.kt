@@ -40,7 +40,7 @@ class MyUserDetailService : UserDetailsService {
                 0,
                 singRequest.username ?: "",
                 passwordEncoder.encode(singRequest.password),
-                DateTimeOffset.valueOf(Timestamp(date.time), 1),
+                java.sql.Date(Date().time),
                 ""
             )
             userRepository.save(userEntity)
