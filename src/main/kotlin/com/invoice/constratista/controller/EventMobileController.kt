@@ -20,7 +20,7 @@ class EventMobileController {
     private lateinit var eventController: EventController
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
-    fun save(@RequestBody request: EventWithBudgets): ResponseEntity<Response<EventWithBudgets>> {
+    fun save(@RequestBody request: EventWithBudgets): ResponseEntity<Response<EventWithBudgets?>> {
         val data = eventController.save(request).toEvent()
         return ResponseEntity.ok(
             Response(
@@ -32,7 +32,7 @@ class EventMobileController {
     }
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
-    fun getEvents(): ResponseEntity<Response<List<EventWithBudgets>>> {
+    fun getEvents(): ResponseEntity<Response<List<EventWithBudgets?>>> {
         val data = eventController.get().toEventWithBudgets()
         return ResponseEntity.ok(
             Response(

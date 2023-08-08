@@ -1,9 +1,8 @@
 package com.invoice.constratista.datasource.database.inventory
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.Data
-import microsoft.sql.DateTimeOffset
-import org.hibernate.Hibernate
 import java.sql.Date
 
 @Entity(name = "product")
@@ -18,24 +17,19 @@ data class ProductEntity(
     @JoinColumn(name = "product_base_id")
     var productBase: ProductBaseEntity? = null
 
-    @OrderBy("date")
-    @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL],)
-    var priceEntities: MutableList<PriceEntity> = mutableListOf()
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "price_entity_id")
+    var priceEntity: PriceEntity? = null
 
     @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL],)
     var taxEntities: MutableList<TaxEntity> = mutableListOf()
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
-        other as ProductEntity
 
-        return id == other.id
-    }
+    @OneToOne(cascade = [CascadeType.PERSIST], orphanRemoval = true)
+    @JoinColumn(name = "cost_entity_id")
+    var costEntity: CostEntity? = null
 
-    override fun hashCode(): Int = javaClass.hashCode()
-
-    @Override
-    override fun toString(): String {
-        return this::class.simpleName + "(id = $id , name = $name , modified = $modified , productBase = $productBase )"
-    }
+    @JsonIgnore
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "product_inventory_id")
+    var productInventoryEntity: ProductInventoryEntity? = null
 }

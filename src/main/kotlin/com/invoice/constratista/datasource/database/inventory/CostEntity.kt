@@ -3,7 +3,6 @@ package com.invoice.constratista.datasource.database.inventory
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.Data
-import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
 import java.sql.Date
 
@@ -21,10 +20,10 @@ data class CostEntity(
     @JoinColumn(name = "vendor_id")
     var vendor: VendorEntity? = null
 
-    @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "product_inventory_id")
+    @ManyToOne
+    @JoinColumn(name = "product_base_id")
     @JsonIgnore
-    var productInventoryEntity: ProductInventoryEntity? = null
+    var productBaseEntity: ProductBaseEntity? = null
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -38,6 +37,6 @@ data class CostEntity(
 
     @Override
     override fun toString(): String {
-        return this::class.simpleName + "(id = $id , unitCost = $unitCost , quantity = $quantity , date = $date , vendor = $vendor , productInventoryEntity = $productInventoryEntity )"
+        return this::class.simpleName + "(id = $id , unitCost = $unitCost , quantity = $quantity , date = $date , vendor = $vendor )"
     }
 }

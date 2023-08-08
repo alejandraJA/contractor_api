@@ -5,9 +5,7 @@ import com.invoice.constratista.datasource.database.event.EventEntity
 import com.invoice.constratista.datasource.database.inventory.ProductInventoryEntity
 import jakarta.persistence.*
 import lombok.Data
-import microsoft.sql.DateTimeOffset
 import org.hibernate.Hibernate
-import org.springframework.data.jpa.repository.query.Procedure
 import java.sql.Date
 
 @Entity(name = "user")

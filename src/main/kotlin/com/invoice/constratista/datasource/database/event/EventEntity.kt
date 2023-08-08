@@ -7,7 +7,6 @@ import com.invoice.constratista.datasource.database.UserEntity
 import com.invoice.constratista.datasource.database.event.budget.BudgetEntity
 import jakarta.persistence.*
 import lombok.Data
-import microsoft.sql.DateTimeOffset
 import java.sql.Date
 
 @Entity(name = "event")

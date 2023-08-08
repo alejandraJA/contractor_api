@@ -6,18 +6,12 @@ import com.invoice.constratista.datasource.repository.sql.ProductInventoryReposi
 import com.invoice.constratista.datasource.repository.sql.ProductRepository
 import com.invoice.constratista.datasource.repository.sql.UserRepository
 import com.invoice.constratista.utils.Response
-import microsoft.sql.DateTimeOffset
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
-import java.sql.Timestamp
 import java.util.*
 
 
@@ -35,20 +29,21 @@ class ProductController {
 
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
-    fun save(@RequestBody request: ProductInventoryEntity): ResponseEntity<Response<Any>> {
+    fun save(@RequestBody request: ProductInventoryEntity): ResponseEntity<Response<ProductInventoryEntity>> {
         // region start settings
         val authentication = SecurityContextHolder.getContext().authentication
         val date = java.sql.Date(Date().time)
         request.modified = date
         request.product!!.modified = date
-        request.costEntities.forEach {
-            it.date = date
-            it.productInventoryEntity = request
-        }
-        request.product!!.priceEntities.forEach {
-            it.date = date
-            it.product = request.product
-        }
+//        request.costEntities.forEach {
+//            it.date = date
+//            it.productInventoryEntity = request
+//        }
+//        request.product!!.priceEntities.forEach {
+//            it.date = date
+//            it.product = request.product
+//        }
+//        TODO: Ver como se guarda un producto desde el inventario
         request.product!!.taxEntities.forEach {
             it.product = request.product
         }
@@ -65,7 +60,7 @@ class ProductController {
     }
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
-    fun getAll() = ResponseEntity.ok(
+    fun getAll(): ResponseEntity<Response<List<ProductInventoryEntity>>> = ResponseEntity.ok(
         Response(
             status = true,
             message = "ok",
@@ -81,6 +76,7 @@ class ProductController {
     @RequestMapping(value = ["/{id}"], method = [RequestMethod.GET])
     fun getByIdProduct(@PathVariable id: String): ResponseEntity<Response<ProductInventoryEntity>> {
         val result = inventoryRepository.findByProductId(id)
+
         return if (result != null)
             ResponseEntity.ok(
                 Response(
@@ -89,7 +85,7 @@ class ProductController {
                     data = result
                 )
             )
-        else ResponseEntity.status(400).body(null)
+        else ResponseEntity.status(400).build()
     }
 
     @RequestMapping(value = ["/available"], method = [RequestMethod.GET])

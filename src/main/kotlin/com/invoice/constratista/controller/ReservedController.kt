@@ -1,6 +1,7 @@
 package com.invoice.constratista.controller
 
 import com.invoice.constratista.datasource.database.event.budget.ReservedEntity
+import com.invoice.constratista.datasource.repository.sql.ProductInventoryRepository
 import com.invoice.constratista.datasource.repository.sql.ProductRepository
 import com.invoice.constratista.datasource.repository.sql.ReservedRepository
 import com.invoice.constratista.utils.Response
@@ -21,15 +22,17 @@ class ReservedController {
     @Autowired
     private lateinit var productRepository: ProductRepository
 
+    @Autowired lateinit var inventoryRepository: ProductInventoryRepository
+
     @RequestMapping(value = ["/{id}"], method = [RequestMethod.PUT])
     fun updateProduct(
         @PathVariable id: String,
         @Query("idProduct") idProduct: String
     ): ResponseEntity<Response<ReservedEntity>> {
-        val product = productRepository.findById(idProduct).get()
-        val part = repository.findById(id).get()
-        part.product = product
-        repository.save(part)
-        return ResponseEntity.ok(Response(true, "", part))
+        val product = inventoryRepository.findByProductId(idProduct)
+        val reserved = repository.findById(id).get()
+        reserved.inventory = product
+        repository.save(reserved)
+        return ResponseEntity.ok(Response(true, "", reserved))
     }
 }

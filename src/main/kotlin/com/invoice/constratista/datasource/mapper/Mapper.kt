@@ -94,36 +94,42 @@ object Mapper {
     private fun Budget.toBudgetEntity() =
         BudgetEntity(id, number, java.sql.Date(date.toDate()!!.time), conditions, status)
 
-    fun List<EventEntity>.toEventWithBudgets(): List<EventWithBudgets> {
-        val events = mutableListOf<EventWithBudgets>()
+    fun List<EventEntity>.toEventWithBudgets(): List<EventWithBudgets?> {
+        val events = mutableListOf<EventWithBudgets?>()
         this.forEach {
             events.add(it.toEvent())
         }
         return events
     }
 
-    fun EventEntity.toEvent(): EventWithBudgets {
-        return EventWithBudgets(
-            Event(
-                this.id,
-                this.customerEntity!!.id,
-                this.state,
-                this.note,
-                this.eventName
-            ),
-            budgets = getBudgets(this.budgetEntities, this.customerEntity!!.id),
-            notes = getNotes(this.noteEntities),
-            schedules = getSchedules(this.scheduleEntities),
-            dates = getDates(this.dateEntities)
-        )
-    }
+    fun EventEntity.toEvent(): EventWithBudgets? = EventWithBudgets(
+        Event(
+            this.id,
+            this.customerEntity!!.id,
+            this.state,
+            this.note,
+            this.eventName
+        ),
+        budgets = getBudgets(this.budgetEntities, this.customerEntity!!.id),
+        notes = getNotes(this.noteEntities),
+        schedules = getSchedules(this.scheduleEntities),
+        dates = getDates(this.dateEntities)
+    )
 
     private fun getSchedules(scheduleEntities: MutableList<ScheduleEntity>): List<ScheduleWithAddress> {
         val schedules = mutableListOf<ScheduleWithAddress>()
         scheduleEntities.forEach {
             schedules.add(
                 ScheduleWithAddress(
-                    schedule = Schedule(it.id, it.event!!.id, it.date.toString(), it.state, it.note, it.address!!.id, it.name),
+                    schedule = Schedule(
+                        it.id,
+                        it.event!!.id,
+                        it.date.toString(),
+                        it.state,
+                        it.note,
+                        it.address!!.id,
+                        it.name
+                    ),
                     address = it.address!!
                 )
             )
@@ -158,7 +164,7 @@ object Mapper {
                         Part(part.id, part.number, budget.id, part.quantity, part.discount, part.reserved!!.id),
                         Reserved(
                             reserved.id,
-                            reserved.product!!.id,
+                            reserved.inventory!!.id,
                             part.id,
                             reserved.price!!.id,
                             reserved.dateExpiry.toString()

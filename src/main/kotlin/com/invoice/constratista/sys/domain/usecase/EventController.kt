@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller
 class EventController {
 
     @Autowired
-    private lateinit var eventRespository: EventRepository
+    private lateinit var eventRepository: EventRepository
 
     @Autowired
     private lateinit var getProduct: GetProductsUseCase
@@ -29,9 +29,6 @@ class EventController {
     @Autowired
     private lateinit var customerRepository: CustomerRepository
 
-    @Autowired
-    private lateinit var eventRepository: EventRepository
-
     fun save(request: EventWithBudgets): EventEntity {
         val eventEntity = request.toEventEntity()
         eventEntity.user = repository.findUserEntityByUsername(
@@ -43,15 +40,15 @@ class EventController {
             budget.partEntities.forEachIndexed { indexPart, part ->
                 val idProduct = request.budgets[indexBudget].parts[indexPart].reserved.idProduct
                 val idPrice = request.budgets[indexBudget].parts[indexPart].reserved.idPrice
-                part.reserved!!.product = getProduct.invoke(idProduct)
+                part.reserved!!.inventory = getProduct.invoke(idProduct)
                 part.reserved!!.price = priceRepository.findById(idPrice).get()
             }
         }
-        return eventRespository.save(eventEntity)
+        return this.eventRepository.save(eventEntity)
     }
 
     fun save(request: EventEntity): EventEntity {
-        return eventRepository.save(request)
+        return this.eventRepository.save(request)
     }
 
     fun get(): MutableList<EventEntity> {
@@ -59,6 +56,6 @@ class EventController {
             SecurityContextHolder
                 .getContext().authentication.name
         )!!.id
-        return eventRepository.findAllByUserId(id)
+        return this.eventRepository.findAllByUserId(id)
     }
 }

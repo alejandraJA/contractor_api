@@ -3,14 +3,12 @@ package com.invoice.constratista.sys.service
 import com.invoice.constratista.controller.auth.request.SingRequest
 import com.invoice.constratista.datasource.database.UserEntity
 import com.invoice.constratista.datasource.repository.sql.UserRepository
-import microsoft.sql.DateTimeOffset
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.sql.Timestamp
 import java.util.*
 
 @Service

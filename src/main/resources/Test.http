@@ -1,4 +1,4 @@
-###
+### Hello word!
 GET http://localhost:9191/
 
 ### Register User
@@ -25,7 +25,7 @@ Content-Type: application/json
 GET http://localhost:9191/event
 Authorization: {{token}}
 
-### Get All Avent for mobile
+### Get All Event for mobile
 GET http://localhost:9191/mobile/event
 Authorization: {{token}}
 

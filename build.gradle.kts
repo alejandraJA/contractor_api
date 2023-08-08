@@ -54,8 +54,8 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
 
     implementation("com.microsoft.sqlserver:mssql-jdbc:11.2.2.jre17")
-    implementation("com.microsoft.azure:azure-webapp-maven-plugin:2.8.0")
-    implementation("com.azure:azure-ai-anomalydetector:3.0.0-beta.5")
+//    implementation("com.microsoft.azure:azure-webapp-maven-plugin:2.8.0")
+//    implementation("com.azure:azure-ai-anomalydetector:3.0.0-beta.5")
 
     compileOnly("org.projectlombok:lombok")
 
