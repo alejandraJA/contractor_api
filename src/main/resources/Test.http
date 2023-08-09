@@ -47,3 +47,11 @@ Content-Type: application/json
 GET http://localhost:9191/product/available
 Authorization: {{token}}
 Content-Type: application/json
+
+### Get All products
+GET http://localhost:9191/product
+Authorization: {{token}}
+
+### Get budget by id
+GET http://localhost:9191/budget/1
+Authorization: {{token}}
