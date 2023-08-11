@@ -14,6 +14,7 @@ data class ProductBaseEntity(
     val unitKey: String,
     val unitName: String,
     val sku: String,
+    val type: Boolean,
     @Column(name = "product_key") val productKey: String,
 ) {
 
