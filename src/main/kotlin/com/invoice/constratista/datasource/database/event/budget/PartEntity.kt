@@ -11,7 +11,7 @@ data class PartEntity(
     @Id val id: String,
     val number: Int,
     var quantity: Int,
-    val discount: Double,
+    var discount: Double,
 ) {
     @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "reserved_id")

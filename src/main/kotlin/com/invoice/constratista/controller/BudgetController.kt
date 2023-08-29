@@ -1,7 +1,9 @@
 package com.invoice.constratista.controller
 
 import com.invoice.constratista.datasource.database.event.budget.BudgetEntity
+import com.invoice.constratista.datasource.database.event.budget.PartEntity
 import com.invoice.constratista.datasource.repository.sql.BudgetRepository
+import com.invoice.constratista.datasource.repository.sql.PartRepository
 import com.invoice.constratista.utils.Response
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -16,6 +18,9 @@ class BudgetController {
     @Autowired
     private lateinit var repository: BudgetRepository
 
+    @Autowired
+    private lateinit var partRepository: PartRepository
+
     @RequestMapping(value = ["/{id}"], method = [RequestMethod.GET])
     fun getById(@PathVariable id: String): ResponseEntity<Response<BudgetEntity>> = ResponseEntity.ok(
         Response(
@@ -24,5 +29,19 @@ class BudgetController {
             data = repository.getReferenceById(id)
         )
     )
+
+    @RequestMapping(value = ["/{id}/createPart"], method = [RequestMethod.POST])
+    fun createPart(@PathVariable id: String): ResponseEntity<Response<List<PartEntity>>> {
+        repository.createPart(id)
+        val parts = partRepository.findByBudgetId(id)
+        return ResponseEntity.ok(
+            Response(
+                status = true,
+                message = "create",
+                parts,
+            )
+        )
+    }
+
 
 }

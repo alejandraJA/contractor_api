@@ -6,6 +6,7 @@ import com.invoice.constratista.datasource.repository.sql.ReservedRepository
 import com.invoice.constratista.utils.Response
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -35,5 +36,19 @@ class ReservedController {
 
         repository.save(reserved)
         return ResponseEntity.ok(Response(true, "", reserved))
+    }
+
+    @RequestMapping(value = ["/{idReserved}"], method = [RequestMethod.DELETE])
+    @Transactional
+    fun deletePartByReservedId(@PathVariable(name = "idReserved") idReserved: String): ResponseEntity<Response<Boolean>> {
+        repository.deletePart(idReserved)
+        val status = repository.findById(idReserved).isEmpty
+        return ResponseEntity.ok(
+            Response(
+                status = status,
+                message = if (status) "" else "No " + "Delete",
+                data = status
+            )
+        )
     }
 }

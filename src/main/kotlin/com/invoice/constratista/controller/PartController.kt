@@ -20,12 +20,15 @@ class PartController {
     @RequestMapping(value = ["/{id}"], method = [RequestMethod.PUT])
     fun updateQuantity(
         @PathVariable id: String,
-        @Query("quantity") quantity: Int
+        @Query("quantity") quantity: Int,
+        @Query("discount") discount: Double,
     ): ResponseEntity<Response<PartEntity>> {
         val part = repository.findById(id).get()
         part.quantity = quantity
+        part.discount = discount
         repository.save(part)
         return ResponseEntity.ok(Response(true, "ok", part))
     }
+
 }
 

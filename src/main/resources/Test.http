@@ -35,7 +35,7 @@ Authorization: {{token}}
 Content-Type: application/json
 
 ### Get product
-GET http://localhost:9191/product/1
+GET http://localhost:9191/product/{{id_product}}
 Authorization: {{token}}
 
 ### Get availavility of product in inventoty
@@ -53,5 +53,13 @@ GET http://localhost:9191/product
 Authorization: {{token}}
 
 ### Get budget by id
-GET http://localhost:9191/budget/1
+GET http://localhost:9191/budget/{{id_budget}}
+Authorization: {{token}}
+
+### Create Part
+POST http://localhost:9191/budget/{{id_budget}}/createPart
+Authorization: {{token}}
+
+### DELETE PART
+DELETE http://localhost:9191/reserved/{{idReserved}}
 Authorization: {{token}}
